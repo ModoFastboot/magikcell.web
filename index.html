@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Magik.Cell - Ayuda</title>
+
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -10,28 +11,20 @@ body {
     background: #0f172a;
     color: white;
     margin: 0;
-    padding: 0;
 }
 
-h1 {
-    margin-top: 20px;
-}
+h1 { margin-top: 20px; }
 
-/* Botones tipo tarjeta */
 .card-btn {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     width: 300px;
-    padding: 15px 20px;
     margin: 15px auto;
-    font-size: 18px;
+    padding: 15px;
     border-radius: 12px;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    text-align: left;
+    font-size: 18px;
     color: white;
 }
 
@@ -40,32 +33,21 @@ h1 {
     margin-right: 15px;
 }
 
-/* Colores por marca */
 .samsung { background: #1428a0; }
 .motorola { background: #ff0000; }
 .patron { background: #22c55e; color: black; }
 
-.card-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-}
-
 .back-btn {
-    background: #f87171;
+    background: #ef4444;
     color: white;
     padding: 12px 20px;
-    margin: 15px;
+    margin-top: 20px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.back-btn:hover {
-    opacity: 0.9;
-}
-
-/* GRID del patrón */
+/* GRID */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 80px);
@@ -83,25 +65,18 @@ h1 {
     line-height: 80px;
     font-size: 20px;
     cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
 }
 
 .cell.active { background: #22c55e; }
 
-/* Imágenes de ejemplo */
 img.demo {
     width: 150px;
-    margin: 10px 0;
+    margin: 10px;
     border-radius: 10px;
-    border: 2px solid #22c55e;
 }
 
-/* Media query móviles */
-@media (max-width: 350px) {
-    .grid { grid-template-columns: repeat(3, 60px); grid-template-rows: repeat(3, 60px); gap: 10px; }
-    .cell { width: 60px; height: 60px; line-height: 60px; font-size: 16px; }
-    .card-btn { width: 90%; font-size: 16px; }
+#contenido {
+    margin-top: 20px;
 }
 </style>
 </head>
@@ -111,20 +86,16 @@ img.demo {
 <h1>Magik.Cell</h1>
 <p>Seleccioná una opción</p>
 
-<!-- Botones tipo tarjeta con logo -->
 <button class="card-btn samsung" onclick="mostrar('samsung')">
-    <img src="samsung_logo.png" alt="Samsung">
-    Samsung (Download)
+<img src="samsung_logo.png"> Samsung (Download)
 </button>
 
 <button class="card-btn motorola" onclick="mostrar('motorola')">
-    <img src="motorola_logo.png" alt="Motorola">
-    Motorola (Fastboot)
+<img src="motorola_logo.png"> Motorola (Fastboot)
 </button>
 
 <button class="card-btn patron" onclick="mostrar('patron')">
-    <img src="patron_icon.png" alt="Patrón">
-    Enviar Patrón
+<img src="patron_icon.png"> Enviar Patrón
 </button>
 
 <div id="contenido"></div>
@@ -139,13 +110,12 @@ function mostrar(tipo){
     if(tipo === "samsung"){
         c.innerHTML = `
         <h2>Samsung</h2>
-        <img src="download_mode.jpg" alt="Download Mode" class="demo">
+        <img src="download_mode.jpg" class="demo">
         <p>1. Apagar celular</p>
-        <p>2. Mantener Vol+ y Vol-</p>
+        <p>2. Mantener presionados Vol+ y Vol-</p>
         <p>3. Conectar cable</p>
         <p>4. Presionar Vol+</p>
-        <p>📸 Mandar foto</p>
-        <a href="https://wa.me/5491123177277" target="_blank">
+        <a href="https://wa.me/5491123177277?text=Hola,%20te%20mando%20la%20foto%20del%20modo%20Download%20(Samsung)" target="_blank">
             <button>Enviar por WhatsApp</button>
         </a>
         ${volver}
@@ -155,11 +125,10 @@ function mostrar(tipo){
     if(tipo === "motorola"){
         c.innerHTML = `
         <h2>Motorola</h2>
-        <img src="fastboot_mode.jpg" alt="Fastboot Mode" class="demo">
+        <img src="fastboot_mode.jpg" class="demo">
         <p>1. Apagar celular</p>
-        <p>2. Vol- + Power</p>
-        <p>📸 Mandar foto</p>
-        <a href="https://wa.me/5491123177277" target="_blank">
+        <p>2. Mantener Vol- + Power</p>
+        <a href="https://wa.me/5491123177277?text=Hola,%20te%20mando%20la%20foto%20del%20modo%20Fastboot%20(Motorola)" target="_blank">
             <button>Enviar por WhatsApp</button>
         </a>
         ${volver}
@@ -174,7 +143,7 @@ function mostrar(tipo){
         </div>
         <p id="resultado"></p>
         <button onclick="borrar()">Borrar</button>
-        <button onclick="copiar()">Copiar</button>
+        <button onclick="enviarWhatsapp()">Enviar por WhatsApp</button>
         ${volver}
         `;
     }
@@ -197,14 +166,17 @@ function borrar(){
     document.getElementById("resultado").innerText = "";
 }
 
-function copiar(){
+/* 🔥 ESTA ES LA CLAVE */
+function enviarWhatsapp(){
     if(patron.length === 0){
-        alert("No hay patrón para copiar");
+        alert("No hay patrón");
         return;
     }
-    navigator.clipboard.writeText("Patrón: " + patron.join("-"))
-        .then(()=> alert("Patrón copiado al portapapeles"))
-        .catch(()=> alert("Error al copiar"));
+
+    let texto = "Hola, mi patrón es: " + patron.join("-");
+    let url = "https://wa.me/5491123177277?text=" + encodeURIComponent(texto);
+
+    window.open(url, "_blank");
 }
 </script>
 
