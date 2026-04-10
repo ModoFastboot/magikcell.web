@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Magik.Cell - Ayuda</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+/* Botones tipo tarjeta */
+.card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 300px;
+    padding: 15px 20px;
+    margin: 15px auto;
+    font-size: 18px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    text-align: left;
+    color: white;
+}
+
+.card-btn img {
+    width: 40px;
+    margin-right: 15px;
+}
+
+/* Colores por marca */
+.samsung { background: #1428a0; }
+.motorola { background: #ff0000; }
+.patron { background: #22c55e; color: black; }
+
+.card-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.back-btn {
+    background: #f87171;
+    color: white;
+    padding: 12px 20px;
+    margin: 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    opacity: 0.9;
+}
+
+/* GRID del patrón */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background: #334155;
+    border-radius: 50%;
+    line-height: 80px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.cell.active { background: #22c55e; }
+
+/* Imágenes de ejemplo */
+img.demo {
+    width: 150px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 2px solid #22c55e;
+}
+
+/* Media query móviles */
+@media (max-width: 350px) {
+    .grid { grid-template-columns: repeat(3, 60px); grid-template-rows: repeat(3, 60px); gap: 10px; }
+    .cell { width: 60px; height: 60px; line-height: 60px; font-size: 16px; }
+    .card-btn { width: 90%; font-size: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Magik.Cell</h1>
+<p>Seleccioná una opción</p>
+
+<!-- Botones tipo tarjeta con logo -->
+<button class="card-btn samsung" onclick="mostrar('samsung')">
+    <img src="samsung_logo.png" alt="Samsung">
+    Samsung (Download)
+</button>
+
+<button class="card-btn motorola" onclick="mostrar('motorola')">
+    <img src="motorola_logo.png" alt="Motorola">
+    Motorola (Fastboot)
+</button>
+
+<button class="card-btn patron" onclick="mostrar('patron')">
+    <img src="patron_icon.png" alt="Patrón">
+    Enviar Patrón
+</button>
+
+<div id="contenido"></div>
+
+<script>
+let patron = [];
+
+function mostrar(tipo){
+    let c = document.getElementById("contenido");
+    let volver = `<button class="back-btn" onclick="volverInicio()">⬅ Volver al inicio</button>`;
+
+    if(tipo === "samsung"){
+        c.innerHTML = `
+        <h2>Samsung</h2>
+        <img src="download_mode.jpg" alt="Download Mode" class="demo">
+        <p>1. Apagar celular</p>
+        <p>2. Mantener Vol+ y Vol-</p>
+        <p>3. Conectar cable</p>
+        <p>4. Presionar Vol+</p>
+        <p>📸 Mandar foto</p>
+        <a href="https://wa.me/5491123177277" target="_blank">
+            <button>Enviar por WhatsApp</button>
+        </a>
+        ${volver}
+        `;
+    }
+
+    if(tipo === "motorola"){
+        c.innerHTML = `
+        <h2>Motorola</h2>
+        <img src="fastboot_mode.jpg" alt="Fastboot Mode" class="demo">
+        <p>1. Apagar celular</p>
+        <p>2. Vol- + Power</p>
+        <p>📸 Mandar foto</p>
+        <a href="https://wa.me/5491123177277" target="_blank">
+            <button>Enviar por WhatsApp</button>
+        </a>
+        ${volver}
+        `;
+    }
+
+    if(tipo === "patron"){
+        c.innerHTML = `
+        <h2>Ingresar patrón</h2>
+        <div class="grid">
+            ${[1,2,3,4,5,6,7,8,9].map(n=>`<div class="cell" onclick="agregar(this, ${n})">${n}</div>`).join('')}
+        </div>
+        <p id="resultado"></p>
+        <button onclick="borrar()">Borrar</button>
+        <button onclick="copiar()">Copiar</button>
+        ${volver}
+        `;
+    }
+}
+
+function volverInicio(){
+    document.getElementById("contenido").innerHTML = "";
+    patron = [];
+}
+
+function agregar(el, n){
+    patron.push(n);
+    el.classList.add("active");
+    document.getElementById("resultado").innerText = "Patrón: " + patron.join("-");
+}
+
+function borrar(){
+    patron = [];
+    document.querySelectorAll(".cell").forEach(c=>c.classList.remove("active"));
+    document.getElementById("resultado").innerText = "";
+}
+
+function copiar(){
+    if(patron.length === 0){
+        alert("No hay patrón para copiar");
+        return;
+    }
+    navigator.clipboard.writeText("Patrón: " + patron.join("-"))
+        .then(()=> alert("Patrón copiado al portapapeles"))
+        .catch(()=> alert("Error al copiar"));
+}
+</script>
+
+</body>
+</html>
