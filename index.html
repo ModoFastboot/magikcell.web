@@ -2,6 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+
+<!-- 🔥 CLAVE PARA CELULAR -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Magik.Cell - Ayuda</title>
 
 <style>
@@ -11,14 +15,17 @@ body {
     background: #0f172a;
     color: white;
     margin: 0;
+    padding: 10px; /* 🔥 mejora mobile */
 }
 
 h1 { margin-top: 20px; }
 
+/* BOTONES PRINCIPALES */
 .card-btn {
     display: flex;
     align-items: center;
-    width: 300px;
+    width: 90%;              /* 🔥 responsive */
+    max-width: 350px;        /* 🔥 límite */
     margin: 15px auto;
     padding: 15px;
     border-radius: 12px;
@@ -37,6 +44,7 @@ h1 { margin-top: 20px; }
 .motorola { background: #ff0000; }
 .patron { background: #22c55e; color: black; }
 
+/* BOTÓN VOLVER */
 .back-btn {
     background: #ef4444;
     color: white;
@@ -47,7 +55,7 @@ h1 { margin-top: 20px; }
     cursor: pointer;
 }
 
-/* GRID */
+/* GRID PATRÓN */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 80px);
@@ -69,8 +77,10 @@ h1 { margin-top: 20px; }
 
 .cell.active { background: #22c55e; }
 
+/* IMÁGENES */
 img.demo {
-    width: 150px;
+    width: 80%;          /* 🔥 responsive */
+    max-width: 250px;
     margin: 10px;
     border-radius: 10px;
 }
@@ -115,6 +125,7 @@ function mostrar(tipo){
         <p>2. Mantener presionados Vol+ y Vol-</p>
         <p>3. Conectar cable</p>
         <p>4. Presionar Vol+</p>
+        <br>
         <a href="https://wa.me/5491123177277?text=Hola,%20te%20mando%20la%20foto%20del%20modo%20Download%20(Samsung)" target="_blank">
             <button>Enviar por WhatsApp</button>
         </a>
@@ -128,6 +139,7 @@ function mostrar(tipo){
         <img src="fastboot_mode.jpg" class="demo">
         <p>1. Apagar celular</p>
         <p>2. Mantener Vol- + Power</p>
+        <br>
         <a href="https://wa.me/5491123177277?text=Hola,%20te%20mando%20la%20foto%20del%20modo%20Fastboot%20(Motorola)" target="_blank">
             <button>Enviar por WhatsApp</button>
         </a>
@@ -166,7 +178,7 @@ function borrar(){
     document.getElementById("resultado").innerText = "";
 }
 
-/* 🔥 ESTA ES LA CLAVE */
+/* 🔥 ENVÍO AUTOMÁTICO A WHATSAPP */
 function enviarWhatsapp(){
     if(patron.length === 0){
         alert("No hay patrón");
